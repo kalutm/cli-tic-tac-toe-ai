@@ -138,6 +138,10 @@ def best_move(board):
             best_score = score
             best_index = move
 
+            # already found a potential winner move so terminate the search
+            if best_score == 1:
+                break
+
     return best_index, best_score
 
 # =========================
