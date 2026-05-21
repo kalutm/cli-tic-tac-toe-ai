@@ -92,6 +92,8 @@ def min_max(board, max_player, alpha, beta, use_pruning=True, use_memo=False):
 
     if max_player:
         best_val = -inf
+        pruned = False  
+        
         for move in legal_moves(board):
             board[move] = "X"
             val = min_max(board, False, alpha, beta, use_pruning, use_memo)
@@ -101,13 +103,18 @@ def min_max(board, max_player, alpha, beta, use_pruning=True, use_memo=False):
             alpha = max(alpha, best_val)
 
             if use_pruning and alpha >= beta:
+                pruned = True 
                 break
         
-        if use_memo:
+
+        if use_memo and not pruned:
             transposition_table[board_tuple] = best_val
         return best_val
+        
     else:
         best_val = inf
+        pruned = False  
+        
         for move in legal_moves(board):
             board[move] = "O"
             val = min_max(board, True, alpha, beta, use_pruning, use_memo)
@@ -117,9 +124,10 @@ def min_max(board, max_player, alpha, beta, use_pruning=True, use_memo=False):
             beta = min(beta, best_val)
 
             if use_pruning and beta <= alpha:
+                pruned = True 
                 break
-                
-        if use_memo:
+
+        if use_memo and not pruned:
             transposition_table[board_tuple] = best_val
         return best_val
 
@@ -156,7 +164,7 @@ def best_move(board):
                 break
     nodes_with_pruning_and_break = node_counter
 
-    # 4. WITH Pruning + ROOT BREAK + MEMOIZATION (The default path determining the actual move)
+    # 4. WITH Pruning + ROOT BREAK + MEMOIZATION
     node_counter = 0
     best_score = -inf
     best_index = None

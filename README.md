@@ -10,4 +10,9 @@
        * Pure Minimax explores: ~59,704 nodes
        * Alpha-Beta Pruning explores: ~4,089 nodes (a ~93% reduction, proving the efficiency of mathematical cutoffs where alpha >= beta).
        * Alpha-Beta + Root Break: Introduces an early exit condition in the root `best_move` loop. If a guaranteed winning move (score of 1) is found, the loop breaks instantly, optimizing late-game evaluations.
-       * Alpha-Beta + Root Break + Memoization: Plummets the search space down to roughly ~1,396 nodes. Because the Transposition Table cache persists across the entire game, subsequent turns often drop to single-digit node evaluations as the AI relies on its pre-calculated history.
+       * Alpha-Beta + Root Break + Memoization: Optimizes the search further. Because the Transposition Table cache persists across the entire game, subsequent turns often drop to single-digit node evaluations as the AI relies on its pre-calculated history.
+3. COMPLEXITY ANALYSIS:
+   - Asymptotic Complexity: O(1) (Constant Time). Because the Tic-Tac-Toe grid is strictly constrained to a 3x3 layout, the input size 'n' is fixed, capping the absolute maximum upper bound of calculations.
+   - Algorithmic Tree Complexity (Worst-Case): O(b^d), where 'b' is the branching factor and 'd' is the depth. Unoptimized Minimax must explore the entire game tree up to a maximum of 9! (362,880) state permutations.
+   - Optimized Alpha-Beta Complexity (Best-Case): O(b^(d/2)). When move ordering allows optimal cutoffs, alpha-beta pruning effectively cuts the exponent of the search depth in half.
+   - Memoization Impact: Reduces redundant sub-tree evaluations to O(V), where 'V' is the number of unique valid board states (only 5,827 in Tic-Tac-Toe), converting an exponential search path into a highly optimized, flat lookup table.
